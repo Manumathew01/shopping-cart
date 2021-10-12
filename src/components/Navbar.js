@@ -1,0 +1,49 @@
+import React, { useState, useEffect } from "react";
+import Cart from "./Cart";
+import "../App.css";
+
+const Navbar = () => {
+  const clickHandler = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const [scrolled, setScrolled] = React.useState(false);
+  const handleScroll = () => {
+    const offset = window.scrollY;
+    if (offset > 1) {
+      setScrolled(true);
+    } else {
+      setScrolled(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+  });
+  let navbarClasses = ["navbar"];
+  if (scrolled) {
+    navbarClasses.push("scrolled");
+  }
+  const navbar_style = navbarClasses.join(" ");
+
+  return (
+    <div>
+      <nav className={navbar_style}>
+        <p>REACT SHOPPING CART</p>
+        <i onClick={clickHandler} className="fas fa-shopping-cart fa-3x"></i>
+      </nav>
+      <div className={isExpanded ? "cart-wrapper" : "cart-wrapper collapsed"}>
+        <i onClick={() => setIsExpanded(false)} className="fas fa-times"></i>
+        <div className="cart-header">
+          <div>
+            <i className="fas fa-shopping-cart fa-3x"></i>CART
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Navbar;
